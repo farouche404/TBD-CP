@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tableau de bord CP — RRF</title>
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<style>
+:root{--navy:#142b49;--blue:#346ee5;--bg:#f5f7fb;--line:#e5eaf2;--muted:#63758c;--text:#20324b;--green:#13866d;--orange:#b36c1b}*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}.shell{max-width:1440px;margin:auto;padding:24px}.hero{background:linear-gradient(115deg,#152b4b,#28569b);color:white;border-radius:18px;padding:25px 28px;display:flex;justify-content:space-between;align-items:center;gap:18px}.eyebrow{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;opacity:.7;font-weight:700}h1{font-size:25px;margin:4px 0 5px}.subtitle{opacity:.8;font-size:13px}.hero-right{display:flex;gap:9px;align-items:center}.btn{cursor:pointer;border:1px solid var(--line);border-radius:9px;background:white;color:var(--navy);padding:9px 13px;font-weight:650}.btn:hover{filter:brightness(.97)}.filters{margin:17px 0;display:flex;gap:12px;align-items:end;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:230px}.field label{font-size:12px;color:var(--muted);font-weight:700}select,input{padding:11px 12px;border-radius:10px;border:1px solid #d5deeb;background:white;color:var(--text);font:inherit;width:100%}.status{font-size:12px;color:var(--muted)}.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:16px 0}.kpi,.panel{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 14px rgba(26,45,74,.035)}.kpi{padding:17px 18px;position:relative;overflow:hidden}.kpi:before{content:"";position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--blue)}.kpi:nth-child(2):before{background:#7c5cc4}.kpi:nth-child(3):before{background:#0e9985}.kpi:nth-child(4):before{background:#dc9850}.kpi strong{display:block;font-size:30px;color:var(--navy);line-height:1.2}.kpi span{color:var(--muted);font-size:12px}.layout{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}.panel{padding:20px;margin-bottom:16px;min-width:0}.panel h2{font-size:16px;margin:0}.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:8px}.pill{border-radius:50px;background:#edf2fc;color:#345b9a;padding:3px 10px;font-size:11px;font-weight:700}.rtu{border:1px solid var(--line);border-radius:12px;margin-bottom:13px;padding:15px}.rtu:last-child{margin-bottom:0}.rtutop{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.rtutitle{font-weight:750;color:var(--navy)}.meta{color:var(--muted);font-size:12px;margin-top:4px}.tag{background:#eaf2ff;color:#2b5b9c;border-radius:7px;padding:3px 9px;font-size:11px;font-weight:650}.sectiontitle{font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:750;color:var(--muted);margin:14px 0 7px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#f0f4f9;border-radius:7px;padding:4px 8px;font-size:12px}.dispatch{display:grid;gap:7px;margin-top:12px}.dispatchrow{display:grid;grid-template-columns:150px 1fr;gap:8px;padding:9px 11px;background:#f8fafd;border-radius:8px;font-size:12px}.dispatchrow b{color:#475d77}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;background:#f5f8fc;color:#53677e;font-size:11px;padding:11px 10px;white-space:nowrap}td{border-top:1px solid #edf0f5;padding:11px 10px;vertical-align:top;min-width:80px;overflow-wrap:anywhere}.empty{border:1px dashed #d4deea;border-radius:12px;text-align:center;padding:27px 12px;color:#77879b;background:#fbfcfe}.empty .symbol{font-size:27px;display:block;margin-bottom:5px}.chartrow{display:flex;gap:16px;align-items:center}.donut{width:132px;height:132px;border-radius:50%;background:conic-gradient(#dfe6f0 0 100%);display:grid;place-items:center;flex-shrink:0}.donutinner{width:94px;height:94px;border-radius:50%;background:white;display:flex;flex-direction:column;align-items:center;justify-content:center}.donutinner strong{font-size:27px;color:var(--navy)}.donutinner small{color:var(--muted);font-size:10px}.legend{display:grid;gap:7px;font-size:12px}.legenditem{display:flex;align-items:center;gap:7px}.dot{width:9px;height:9px;border-radius:3px;display:inline-block}.notice{color:#855a15;background:#fff5df;border:1px solid #f1dcad;padding:12px 14px;border-radius:10px;margin:12px 0}.foot{color:var(--muted);font-size:11px;margin-top:12px}details{margin-top:14px}summary{cursor:pointer;color:#5373a6;font-size:12px}.config{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.config label{font-size:11px;color:var(--muted)}.config input{padding:7px;font-size:12px}@media(max-width:900px){.layout{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.shell{padding:12px}.hero{padding:18px}.hero-right{display:none}.kpis{gap:8px}.dispatchrow{grid-template-columns:1fr}.chartrow{flex-direction:column;align-items:flex-start}}
+.barlegend{display:flex;gap:20px;font-size:12px;color:var(--muted);margin:0 0 16px}.barlegend span{display:flex;align-items:center;gap:6px}.barchart{display:grid;gap:17px}.baritem{display:grid;grid-template-columns:105px 1fr 66px;align-items:center;gap:10px;font-size:12px}.bartracks{display:grid;gap:5px}.bartrack{background:#eef2f8;border-radius:6px;height:13px;overflow:hidden}.barfill{height:100%;border-radius:6px;min-width:0;transition:width .25s}.barname{font-weight:700}.barcount{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}.progresscards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.progresscard{background:#f5f8fc;border-radius:10px;padding:12px}.progresscard b{display:block;font-size:22px;color:var(--navy)}.progresscard small{color:var(--muted);font-size:11px}.progressline{height:5px;border-radius:4px;background:#e1e8f1;margin-top:8px;overflow:hidden}.progressline span{display:block;height:100%;background:var(--green)}@media(max-width:520px){.baritem{grid-template-columns:80px 1fr 48px}.progresscards{gap:5px}.progresscard{padding:8px}}
+
+/* Tableau de bord CP : statuts et avancement */
+.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.progress-panel{margin-top:3px}.barchart{gap:24px}.baritem{display:grid;grid-template-columns:125px minmax(0,1fr) 135px;align-items:center;gap:18px}.barname{font-size:14px}.bartrack{display:flex;height:30px;border-radius:9px;overflow:visible;background:#edf2f8;position:relative}.barsegment{height:100%;position:relative;min-width:0;cursor:help;transition:filter .15s}.barsegment:first-child{border-radius:9px 0 0 9px}.barsegment:last-child{border-radius:0 9px 9px 0}.barsegment:only-child{border-radius:9px}.barsegment:hover,.barsegment:focus-visible{filter:brightness(.88);outline:2px solid #253e66;outline-offset:1px;z-index:2}.barcount{font-size:12px;white-space:nowrap}.barcount b{display:block;color:#20324b;font-size:13px}.chart-tooltip{position:fixed;z-index:99999;max-width:min(390px,calc(100vw - 24px));min-width:220px;max-height:300px;overflow:auto;pointer-events:none;background:white;border:1px solid #d9e2ee;border-radius:12px;padding:13px 15px;box-shadow:0 12px 35px rgba(20,43,73,.22);font-size:12px}.chart-tooltip[hidden]{display:none}.chart-tooltip strong{display:block;margin-bottom:8px;font-size:13px}.chart-tooltip ul{padding-left:18px;margin:0}.chart-tooltip li{margin:5px 0;overflow-wrap:anywhere}.chart-tooltip .tooltip-muted{color:#63758c}.status-tag{display:inline-block;padding:4px 9px;border-radius:7px;font-size:11px;font-weight:700;line-height:1.45}.status-done{background:#dcf5e9;color:#117452}.status-progress{background:#e5efff;color:#2459a3}.status-wait{background:#fff1d9;color:#96600b}.status-review{background:#efe8fc;color:#7148a2}.status-neutral{background:#edf1f6;color:#526278}.tablewrap td .status-tag{white-space:normal}.barlegend{margin-bottom:20px}.rtu .tag{max-width:220px}.rtu .tag.status-tag{display:inline-block}.progress-panel .foot{margin-top:18px}@media(max-width:650px){.baritem{grid-template-columns:1fr;gap:7px}.barcount{text-align:left}.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.kpi{padding:12px 9px}.kpi strong{font-size:24px}}
+</style></head><body>
+<main class="shell"><header class="hero"><div><h1>Tableau de bord CP</h1><div class="subtitle">Une vision unifiée des RTU, besoins EMM et applications par service</div></div><div class="hero-right"><button class="btn" id="refresh">↻ Actualiser</button></div></header>
+<div id="notice" class="notice" hidden></div><div class="filters"><div class="field"><label for="service">Service utilisateur</label><select id="service"><option value="">Chargement des services…</option></select></div><div class="field"><label for="search">Rechercher un service</label><input id="search" placeholder="SDIS 37, SAMU 18, Tous, Transverse…"></div><div class="status" id="status">Connexion à GRIST…</div></div>
+<section class="kpis"><div class="kpi"><strong id="nrtu">0</strong><span>RTU / versions</span></div><div class="kpi"><strong id="nemm">0</strong><span>Besoins EMM</span></div><div class="kpi"><strong id="napps">0</strong><span>Demandes d'applications</span></div></section>
+<section class="panel progress-panel"><div class="panelhead"><h2>📊 Avancement des demandes</h2><span class="pill">Vue du service</span></div><div class="barlegend"><span><i class="dot" style="background:#729fec"></i> Non finalisées</span><span><i class="dot" style="background:#27a684"></i> Finalisées</span></div><div id="barChart" class="barchart" aria-label="Avancement des demandes par catégorie"></div><div class="foot">RTU : Terminé · EMM : Déployé ou Terminé · Applications : Qualifié. Survolez les segments pour consulter les demandes correspondantes.</div></section>
+ <div class="layout"><section class="panel"><div class="panelhead"><h2>📋 État des lieux — RTU</h2><span class="pill" id="rtuCount">0 fiche</span></div><div id="rtuContent"></div></section><div><section class="panel"><div class="panelhead"><h2>⚙️ Besoins EMM</h2><span class="pill" id="emmCount">0 besoin</span></div><div id="emmContent"></div></section><section class="panel"><div class="panelhead"><h2>📱 Applications</h2><span class="pill" id="appCount">0 demande</span></div><div id="appContent"></div></section></div></div><div id="chartTooltip" class="chart-tooltip" role="tooltip" hidden></div></main>
+<script>
+'use strict';
+const DEFAULTS={tables:{rtu:'A_Suivi_RTU',emm:'B_EMM',apps:'B_Applications'},fields:{rtu:{service:'Service_Utilisateur',version:'Version_RTU',status:'Statut',date:'Date_de_reception_initiale',missing:'Besoins_manquants',todo:'Besoins_a_prendre_charge_par_la_DT',done:'Besoins_pris_en_charge_DT'},emm:{service:'Service_Utilisateur',category:'Categorie',case:'Cas',status:'Statut',target:'Cible'},apps:{service:'Service_demandeur',application:'Application',nature:'Nature_Demande',playstore:'Playstore',status:'Statut',target:'Cible'}}};
+const config=DEFAULTS;
+let data={rtu:[],emm:[],apps:[]},selected='',loading=false,serviceNames=new Map(),allServices=[];
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function value(v){if(v===null||v===undefined||v==='')return '';if(Array.isArray(v)){const a=v[0]==='L'||v[0]==='l'?v.slice(1):v;return a.map(value).filter(Boolean).join(', ')}if(typeof v==='object')return JSON.stringify(v);return String(v)}
+function normalize(v){return value(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr').replace(/\s+/g,' ').trim()}
+function rawServiceIds(v){
+ if(v===null||v===undefined||v==='')return [];
+ if(Array.isArray(v))return (v[0]==='L'||v[0]==='l'?v.slice(1):v).flatMap(rawServiceIds);
+ if(typeof v==='number')return [String(v)];
+ return String(v).split(/\s*[;,\n]\s*/).map(x=>x.trim()).filter(Boolean);
+}
+function services(v){return rawServiceIds(v).map(id=>serviceNames.get(id)||id)}
+function isService(v,chosen){return services(v).some(s=>normalize(s)===normalize(chosen))}
+function refreshSelector(){
+ const q=normalize($('search').value);
+ const matches=allServices.filter(s=>!q||normalize(s).includes(q));
+ $('service').innerHTML=matches.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+ if(!matches.includes(selected))selected=matches[0]||'';
+ $('service').value=selected;
+ render();
+}
+function needs(v){if(Array.isArray(v))return(v[0]==='L'||v[0]==='l'?v.slice(1):v).flatMap(needs);return value(v).split(/\s*(?:\n|;|,)\s*/).map(x=>x.trim()).filter(Boolean)}
+function uniqueNeeds(...vals){let seen=new Set(),out=[];for(const v of vals)for(const n of needs(v)){const k=normalize(n);if(k&&!seen.has(k)){seen.add(k);out.push(n)}}return out}
+function field(row,type,key){
+ const id=config.fields[type][key];
+ if(Object.prototype.hasOwnProperty.call(row,id))return row[id];
+ // Compatibilité avec les anciennes versions de la colonne RTU.
+ if(type==='rtu'&&key==='todo')return row.Besoins_a_prendre_en_charge_par_la_DT;
+ return undefined;
+}
+function statusKind(v){const n=normalize(v);if(['termine','terminee','deploye','deployee','qualifie','qualifiee','finalise','finalisee'].includes(n))return 'done';if(/attente|bloque|suspendu|non demarre|a faire|a completer|a instruire/.test(n))return 'wait';if(/verifi|valid|recette|qualification|controle/.test(n))return 'review';if(/cours|traitement|charge|analyse|instruction|etude|prepar|realisation|test/.test(n))return 'progress';return 'neutral'}
+function statusHtml(v){return `<span class="status-tag status-${statusKind(v)}">${display(v)}</span>`}
+function lifeRank(v){const k=statusKind(v);return ({wait:0,neutral:1,progress:2,review:3,done:4})[k]}
+function sortedByStatus(rows,type){return rows.map((r,i)=>({r,i})).sort((a,b)=>lifeRank(field(a.r,type,'status'))-lifeRank(field(b.r,type,'status'))||a.i-b.i).map(x=>x.r)}
+function dateText(v){if(v===null||v===undefined||v==='')return 'Non renseigné';if(typeof v==='number'){const d=new Date(v*1000);return isNaN(d)?String(v):new Intl.DateTimeFormat('fr-FR').format(d)}if(Array.isArray(v)&&v[0]==='D'){const d=new Date(v[1]*1000);return isNaN(d)?value(v):new Intl.DateTimeFormat('fr-FR').format(d)}return value(v)||'Non renseigné'}
+function display(v){return esc(value(v)||'Non renseigné')}
+function empty(s){return `<div class="empty"><span class="symbol">◇</span>${esc(s)}</div>`}
+function chips(items){return items.length?`<div class="chips">${items.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>`:'<span style="color:#8a99ab">—</span>'}
+function rtuCard(r){const missing=uniqueNeeds(field(r,'rtu','missing')),todo=uniqueNeeds(field(r,'rtu','todo')),done=uniqueNeeds(field(r,'rtu','done')),all=uniqueNeeds(field(r,'rtu','missing'),field(r,'rtu','todo'),field(r,'rtu','done'));return `<article class="rtu"><div class="rtutop"><div><div class="rtutitle">RTU — ${display(field(r,'rtu','version'))}</div><div class="meta">Réception initiale : <b>${esc(dateText(field(r,'rtu','date')))}</b></div></div>${statusHtml(field(r,'rtu','status'))}</div><div class="sectiontitle">Besoins demandés · ${all.length}</div>${chips(all)}<div class="dispatch"><div class="dispatchrow"><b>Manquants</b><div>${chips(missing)}</div></div><div class="dispatchrow"><b>À traiter DT</b><div>${chips(todo)}</div></div><div class="dispatchrow"><b>Pris en charge DT</b><div>${chips(done)}</div></div></div></article>`}
+function table(rows,columns,type){return `<div class="tablewrap"><table><thead><tr>${columns.map(c=>`<th>${esc(c[0])}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${columns.map(c=>`<td>${c[1]==='status'?statusHtml(field(r,type,c[1])):c[2]==='date'?esc(dateText(field(r,type,c[1]))):display(field(r,type,c[1]))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+function isFinal(type,r){const n=normalize(field(r,type,'status'));return type==='rtu'?n==='termine':type==='emm'?['deploye','termine'].includes(n):n==='qualifie'}
+function detailText(type,r){
+ const key=type==='rtu'?'version':type==='emm'?'category':'application';
+ const label=value(field(r,type,key))||'Non renseigné';
+ const stat=value(field(r,type,'status'))||'Statut non renseigné';
+ const service=services(field(r,type,'service')).join(', ');
+ return `${type==='rtu'?'Version ':''}${label} — ${stat}${selected==='Tous'&&service?' · '+service:''}`;
+}
+function renderChart(groups){
+ const max=Math.max(1,...groups.map(g=>g.rows.length));
+ $('barChart').innerHTML=groups.map(g=>{
+  const pending=g.rows.filter(r=>!isFinal(g.type,r)),done=g.rows.filter(r=>isFinal(g.type,r));
+  const pct=g.rows.length?Math.round(done.length/g.rows.length*100):0;
+  const parts=[['pending',pending,'#729fec','Non finalisées'],['done',done,'#27a684','Finalisées']];
+  const segments=parts.map(([kind,rows,color,title])=>rows.length?`<div class="barsegment" tabindex="0" role="img" aria-label="${esc(g.label)} : ${rows.length} ${title.toLowerCase()}" data-type="${g.type}" data-kind="${kind}" style="width:${rows.length/max*100}%;background:${color}"></div>`:'').join('');
+  return `<div class="baritem"><div class="barname">${g.label}</div><div class="bartrack">${segments}</div><div class="barcount"><b>${done.length} / ${g.rows.length} finalisées</b>${g.rows.length?pct+' %':'—'}</div></div>`;
+ }).join('');
+ const tooltip=$('chartTooltip');
+ function hide(){tooltip.hidden=true}
+ function show(el){const g=groups.find(g=>g.type===el.dataset.type);if(!g)return;const finished=el.dataset.kind==='done';const rows=g.rows.filter(r=>isFinal(g.type,r)===finished);tooltip.innerHTML=`<strong>${esc(g.label)} — ${finished?'Finalisées':'Non finalisées'} (${rows.length})</strong>${rows.length?`<ul>${rows.map(r=>`<li>${esc(detailText(g.type,r))}</li>`).join('')}</ul>`:'<span class="tooltip-muted">Aucune demande</span>'}`;tooltip.hidden=false;const box=el.getBoundingClientRect();const tw=tooltip.offsetWidth,th=tooltip.offsetHeight;tooltip.style.left=Math.max(12,Math.min(window.innerWidth-tw-12,box.left+box.width/2-tw/2))+'px';tooltip.style.top=(box.bottom+th+12<window.innerHeight?box.bottom+8:Math.max(12,box.top-th-8))+'px'}
+ $('barChart').querySelectorAll('.barsegment').forEach(el=>{el.addEventListener('mouseenter',()=>show(el));el.addEventListener('mouseleave',hide);el.addEventListener('focus',()=>show(el));el.addEventListener('blur',hide)});
+}
+function render(){
+ const isAll=selected==='Tous';
+ const select=(type)=>isAll?data[type]:data[type].filter(r=>isService(field(r,type,'service'),selected));
+ const rtu=select('rtu'),emm=sortedByStatus(select('emm'),'emm'),apps=sortedByStatus(select('apps'),'apps');
+ $('nrtu').textContent=rtu.length;$('nemm').textContent=emm.length;$('napps').textContent=apps.length;
+ $('rtuCount').textContent=`${rtu.length} fiche${rtu.length>1?'s':''}`;$('emmCount').textContent=`${emm.length} besoin${emm.length>1?'s':''}`;$('appCount').textContent=`${apps.length} demande${apps.length>1?'s':''}`;
+ $('rtuContent').innerHTML=rtu.length?rtu.map(rtuCard).join(''):empty('Aucun RTU renseigné pour ce service.');
+ $('emmContent').innerHTML=emm.length?table(emm,[['Catégorie','category'],['Cas','case'],['Statut','status'],['Cible','target','date']],'emm'):empty('Aucun besoin EMM renseigné pour ce service.');
+ $('appContent').innerHTML=apps.length?table(apps,[['Application','application'],['Nature de la demande','nature'],['Disponible sur le Play Store ?','playstore'],['Statut','status'],['Date cible','target','date']],'apps'):empty("Aucune demande d'application renseignée pour ce service.");
+ renderChart([{label:'RTU',type:'rtu',rows:rtu},{label:'EMM',type:'emm',rows:emm},{label:'Applications',type:'apps',rows:apps}]);
+}
+function columnarToRows(table){if(!table||!Array.isArray(table.id))return[];return table.id.map((id,i)=>{const r={id};for(const [key,col]of Object.entries(table))if(Array.isArray(col)&&key!=='id')r[key]=col[i];return r})}
+async function fetchAll(){
+ if(loading)return;
+ loading=true;$('status').textContent='Actualisation…';
+ const errors=[];
+ try{
+   const ref=columnarToRows(await grist.docApi.fetchTable('REF_Services_Utilisateurs'));
+   serviceNames=new Map(ref.filter(r=>r.Nom!==null&&r.Nom!==undefined).map(r=>[String(r.id),String(r.Nom).trim()]));
+ }catch(e){errors.push(`REF_Services_Utilisateurs : ${e.message||e}`);serviceNames=new Map()}
+ for(const type of ['rtu','emm','apps']){
+   try{data[type]=columnarToRows(await grist.docApi.fetchTable(config.tables[type]))}
+   catch(e){errors.push(`${config.tables[type]} : ${e.message||e}`);data[type]=[]}
+ }
+ allServices=[...new Set(['Tous','Transverse',...Object.keys(data).flatMap(type=>data[type].flatMap(r=>services(field(r,type,'service'))))])].filter(Boolean);
+ // Les noms de services sont affichés, mais les valeurs de référence restent utilisées pour filtrer les lignes.
+ allServices.sort((a,b)=>a==='Tous'?-1:b==='Tous'?1:a==='Transverse'?-1:b==='Transverse'?1:a.localeCompare(b,'fr',{numeric:true}));
+ loading=false;refreshSelector();
+ $('status').textContent=errors.length?'Certaines tables sont indisponibles':'Données actualisées';
+ $('notice').hidden=!errors.length;
+ if(errors.length)$('notice').textContent='Impossible de charger certaines données : '+errors.join(' | ');
+}
+$('service').onchange=e=>{selected=e.target.value;render()};
+$('search').oninput=refreshSelector;
+$('refresh').onclick=fetchAll;
+if(typeof grist==='undefined'){$('notice').hidden=false;$('notice').textContent='Ce fichier doit être ouvert dans un widget personnalisé GRIST avec accès aux tables.';$('status').textContent='En attente de GRIST';render()}else{grist.ready({requiredAccess:'full'});fetchAll();setInterval(fetchAll,60000)}
+</script></body></html>
